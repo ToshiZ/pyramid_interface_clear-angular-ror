@@ -1,9 +1,16 @@
 Rails.application.routes.draw do
-  resources :passports
+  resources :ssh_connections
 
-  get 'passport/index'
-  match '/epk', to: 'passport#epk', via: 'post'
-  match '/rr', to: 'passport#rr', via: 'get'
+  resources :passports
+  root to: 'application#index'
+  get '*path' => 'application#index'
+  # # #get 'passport/index'
+  #match '/testConnection', to: 'SshConnections#testConnection', via: 'get'
+ 
+  # match '/epk', to: 'passport#epk', via: 'post'
+  # match '/rr', to: 'passport#rr', via: 'get'
+  # match '/main', to: 'passport#main', via: 'get'
+  # match '/main2', to: 'passport#main2', via: 'get'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

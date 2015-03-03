@@ -24,7 +24,7 @@ html, hmtl a{
 }
 
 body{
-	background:#A9A9A9;
+	background:#BDC3C7;
 	color:#7F8289;
 	font-weight:300;
 	font-size:16px;
@@ -480,7 +480,7 @@ header .sticky-nav {
 	position: relative;
 	width: 100%;
 	height: 60px;
-	background: #26292E;
+	background: #2C3E50;
 	z-index: 1001;
 	
 	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);

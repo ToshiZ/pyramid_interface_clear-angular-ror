@@ -77,10 +77,10 @@ BRUSHED.slider = function(){
 		thumb_links				:	0,			// Individual thumb links for each slide
 		thumbnail_navigation    :   0,			// Thumbnail navigation
 		slides 					:  	[			// Slideshow Images
-											{image : '_include/img/slider-images/image01.jpg', title : '<div class="slide-content">Brushed</div>', thumb : '', url : ''},
-											{image : '_include/img/slider-images/image02.jpg', title : '<div class="slide-content">Brushed</div>', thumb : '', url : ''},
-											{image : '_include/img/slider-images/image03.jpg', title : '<div class="slide-content">Brushed</div>', thumb : '', url : ''},
-											{image : '_include/img/slider-images/image04.jpg', title : '<div class="slide-content">Brushed</div>', thumb : '', url : ''}  
+											{image : 'assets/images/img/slider-images/image01.jpg', title : '<div class="slide-content">Brushed</div>', thumb : '', url : ''},
+											{image : 'assets/images/img/slider-images/image02.jpg', title : '<div class="slide-content">Brushed</div>', thumb : '', url : ''},
+											{image : 'assets/images/img/slider-images/image03.jpg', title : '<div class="slide-content">Brushed</div>', thumb : '', url : ''},
+											{image : 'assets/images/img/slider-images/image04.jpg', title : '<div class="slide-content">Brushed</div>', thumb : '', url : ''}  
 									],
 									
 		// Theme Options			   
@@ -222,7 +222,7 @@ BRUSHED.tweetFeed = function(){
 	var valueTop = -64; // Margin Top Value
 	
     $("#ticker").tweet({
-          modpath: '_include/js/twitter/',
+          modpath: 'toshiZ_js/twitter/',
           username: "Bluxart", // Change this with YOUR ID
           page: 1,
           avatar_size: 0,
@@ -250,17 +250,17 @@ BRUSHED.tweetFeed = function(){
    Menu Highlight
 ================================================== */
 
-BRUSHED.menu = function(){
-	$('#menu-nav, #menu-nav-mobile').onePageNav({
-		currentClass: 'current',
-    	changeHash: false,
-    	scrollSpeed: 750,
-    	scrollOffset: 30,
-    	scrollThreshold: 0.5,
-		easing: 'easeOutExpo',
-		filter: ':not(.external)'
-	});
-}
+// BRUSHED.menu = function(){
+// 	$('#menu-nav, #menu-nav-mobile').onePageNav({
+// 		currentClass: 'current',
+//     	//changeHash: false,
+//     	scrollSpeed: 750,
+//     	scrollOffset: 30,
+//     	scrollThreshold: 0.5,
+// 		//easing: 'easeOutExpo',
+// 		//filter: ':not(.external)'
+// 	});
+// }
 
 /* ==================================================
    Next Section
@@ -405,7 +405,7 @@ $(document).ready(function(){
 	Modernizr.load([
 	{
 		test: Modernizr.placeholder,
-		nope: '_include/js/placeholder.js', 
+		nope: 'assets/toshiZ_js/placeholder.js', 
 		complete : function() {
 				if (!Modernizr.placeholder) {
 						Placeholders.init({

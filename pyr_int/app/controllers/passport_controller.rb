@@ -3,6 +3,10 @@ class PassportController < ApplicationController
 	skip_before_filter :verify_authenticity_token
 	def index
 	end
+	def main
+	end
+	def main2
+	end
 	def rr
 		render text: "qweqwe" + params[:id]
 	end

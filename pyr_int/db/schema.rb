@@ -11,11 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150226003418) do
+ActiveRecord::Schema.define(version: 20150302045107) do
 
   create_table "passports", force: :cascade do |t|
     t.string   "fileName"
     t.string   "taskName"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "ssh_connections", force: :cascade do |t|
+    t.string   "name"
+    t.string   "ip"
+    t.string   "login"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

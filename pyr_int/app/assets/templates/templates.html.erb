@@ -1,0 +1,43 @@
+<div ng-repeat="passport in passports" class="span10" >
+		<!-- <div class="accordion" id="accordionArea">     -->            
+            <div  class="accordion-group">
+				<div class="accordion-heading accordionize">
+			        <a  class="accordion-toggle" data-toggle="collapse" data-parent="#accordionArea" href="#area{{passport.id}}">
+			            id: {{passport.id}} Имя файла: {{passport.fileName}} Имя задания: {{passport.taskName}}
+			        </a>
+			    </div>	
+			    <div id="area{{passport.id}}" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                        	<div class="tabbable">
+                
+			                    <ul class="nav nav-tabs" id="myTab">
+			                        <li class="active"><a href="#tab1" data-toggle="tab">Обязательные параметры</a></li>
+			                        <li><a href="#tab2" data-toggle="tab">Необязательные параметры</a></li>
+			                    </ul>
+			                 
+			                    <div class="tab-content">
+			                        <div class="tab-pane fade in active" id="tab1">
+			                             <form name="sshConnection">
+											<fieldset>
+						                    	<p><label> Идентификатор ОПП  </label>
+						                        	<input id="ssh-ip" ng-model="passport.sshIp" type="text" placeholder = "my_script"></input></p>
+						                        <p><label> Путь к рабочему каталогу задания </label>
+						                        	<input id="ssh-login" ng-model="passport.sshLogin" type="text" placeholder = "dir = /home/decart"></input></p>
+						                        <p><label>Количество процессоров</label>
+						                        	<input id="ssh-pass" ng-model="passport.sshPass" type="password" placeholder = "n"></input></p>
+					                        </fieldset>
+					                        <button class="button button-small" type="submit" ng-click="runTask(passport, sshConnection)">Запустить</button>
+					                    </form>
+			                        </div>
+			                        <div class="tab-pane fade in" id="tab2">
+			                            Aliquam volutpat arcu et nibh mollis eleifend pharetra lorem scelerisque. Donec vel enim purus, id viverra neque. Cras in velit ante, eget pellentesque sem. Duis tincidunt erat quam. Etiam placerat sapien elit.                            
+			                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas neque diam, luctus at laoreet in, auctor ut tellus. Etiam enim lacus, ornare et tempor, rhoncus rhoncus sem.
+			                        </div>
+			                    </div>
+			                            
+							</div>
+                    </div>
+                </div>
+		    </div>
+	 <!--   </div> -->
+	</div>	

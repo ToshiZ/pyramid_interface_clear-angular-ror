@@ -1,16 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="pyramidApp">
 <head>
   <title>PyrInt</title>
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+  <!-- Mobile Specifics -->
+  <base href="/">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="HandheldFriendly" content="true"/>
+	<meta name="MobileOptimized" content="320"/>   
+
+  <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900' rel='stylesheet' type='text/css'>
+
+  <!-- Fav Icon -->
+	<link rel="shortcut icon" href="#">
+
+	<link rel="apple-touch-icon" href="#">
+	<link rel="apple-touch-icon" sizes="114x114" href="#">
+	<link rel="apple-touch-icon" sizes="72x72" href="#">
+	<link rel="apple-touch-icon" sizes="144x144" href="#">
+
+  
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
+
 </head>
 <body>
+<!-- Header -->
+<header>
+    <div class="sticky-nav">
+    	<a id="mobile-nav" class="menu-nav" href="#menu-nav"></a>
+        
+        <div id="logo">
+        	<a id="goUp" href="#home-slider" title="Brushed | Responsive One Page Template">Brushed Template</a>
+        </div>
+        
+        <nav id="menu">
+        	<ul id="menu-nav">
+            	<li class="current"><a href="#home-slider">ПК "Пирамида"</a></li>
+                <li><a href="/templates">Шаблоны</a></li>
+                <li><a href="/mainn2">Задания</a></li>
+                <li><a ng-href="/connections">Соединения</a></li>
+				<li><a ng-href="shortcodes.html" class="external">Учетная запись</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>	
+<!-- End Header -->
 
+	
+		<ng-view></ng-view>
+	
 
-<%= yield %>
+	<!-- Back To Top -->
+	<a id="back-to-top" href="#">
+		<i class="font-icon-arrow-simple-up"></i>
+	</a>
+	<!-- End Back to Top -->
 
 </body>
 </html>

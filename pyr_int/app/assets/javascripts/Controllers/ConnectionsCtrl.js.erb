@@ -1,0 +1,51 @@
+function ConnectionsCtrl($scope, $http, $location){
+	$scope.sshParams = [{'name': 'head', 'sshIp': '172.16.36.128', 'sshLogin': 'user'},
+	{'sshName': 'node1', 'sshIp': '172.16.36.129', 'sshLogin': 'user'}];
+	// $scope.load = $http.get('/SshConnections.json').success(function(data){
+	// 	$scope.sshParams = data;
+	// });
+	$scope.testConnection = function(sshParam){
+		if(sshConnection.$valid){
+			var req = {
+					method: 'GET',
+					url: 'SshConnections/testConnection',
+					headers: {
+					   'Content-Type': "application/json"
+					 	},
+					data: { name: sshParams.sshName, sshIp: sshParams.sshIp, sshLogin: sshParams.sshLogin, sshPass: sshParams.sshPass}
+				};
+		}
+		$http(req)
+			.success(function(data){
+				sshParam.state = data;
+				console.log(data);
+			})
+			.error(function(data){
+				console.log(data);
+			});
+	};
+	$scope.addConnection = function(){		
+		if(sshConnection.$valid){
+			$scope.sshParams.push(newSshParams);
+		// 	var req = {
+		// 			method: 'POST',
+		// 			url: 'SshConnections/ssh_connections.json',
+		// 			headers: {
+		// 			   'Content-Type': "application/json"
+		// 			 	},
+		// 			data: { name: newSshParams.namr, sshIp: newSshParams.sshIp, sshLogin: newSshParams.sshLogin, sshPass: newSshParams.sshPass}
+		// 		};
+		// }
+		// $http(req)
+		// 	.success(function(data){
+		// 		//passport.response = data;
+		// 		$scope.load();
+		// 		console.log(data);
+		// 	})
+		// 	.error(function(data){
+		// 		console.log(data);
+		// 	});
+		}
+	}
+}
+

@@ -1,0 +1,18 @@
+angular.module('pyramidApp', ["ngRoute"])
+		.controller('TemplatesCtrl', TemplatesCtrl)
+		.controller('ConnectionstCtrl', ConnectionsCtrl)
+		.controller('ssConnectionstCtrl', function($scope){})
+		.config(['$routeProvider', '$locationProvider',function ($routeProvider, $locationProvider) {
+		  $locationProvider.html5Mode(true);
+		  $routeProvider
+		    .when('/templates',
+		      { templateUrl: "<%= asset_path('templates.html') %>",
+		        controller: "TemplatesCtrl" })
+		    .when('/connections',
+		      { templateUrl: "<%= asset_path('connections.html') %>",
+		        controller: "ConnectionstCtrl" })
+		    .when('/ssh_connections',
+		      { templateUrl: "app/views/ssh_connections/index.html",
+		        controller: "ssConnectionstCtrl" })
+		    .otherwise({ redirectTo: '/' });
+		}]);
