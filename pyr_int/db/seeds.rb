@@ -5,3 +5,10 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+
+	SshConnection.create([
+  { name: 'Head' , ip: '172.16.36.128', login: 'user'},
+  { name: 'Node01', ip: '172.16.36.129', login: 'user'},
+  { name: 'Node02', ip: '172.16.36.130', login: 'user'}
+	])

@@ -77,10 +77,10 @@ BRUSHED.slider = function(){
 		thumb_links				:	0,			// Individual thumb links for each slide
 		thumbnail_navigation    :   0,			// Thumbnail navigation
 		slides 					:  	[			// Slideshow Images
-											{image : 'assets/images/img/slider-images/image01.jpg', title : '<div class="slide-content">Brushed</div>', thumb : '', url : ''},
-											{image : 'assets/images/img/slider-images/image02.jpg', title : '<div class="slide-content">Brushed</div>', thumb : '', url : ''},
-											{image : 'assets/images/img/slider-images/image03.jpg', title : '<div class="slide-content">Brushed</div>', thumb : '', url : ''},
-											{image : 'assets/images/img/slider-images/image04.jpg', title : '<div class="slide-content">Brushed</div>', thumb : '', url : ''}  
+											{image : '../../stylesheets/toshiZ_css/img/slider-images/image01.jpg', title : '<div class="slide-content">Brushed</div>', thumb : '', url : ''},
+											{image : '../../stylesheets/toshiZ_css/img/image02.jpg', title : '<div class="slide-content">Brushed</div>', thumb : '', url : ''},
+											{image : '../../stylesheets/toshiZ_css/img/image03.jpg', title : '<div class="slide-content">Brushed</div>', thumb : '', url : ''},
+											{image : '../../stylesheets/toshiZ_css/img/image04.jpg', title : '<div class="slide-content">Brushed</div>', thumb : '', url : ''}  
 									],
 									
 		// Theme Options			   
@@ -348,43 +348,43 @@ BRUSHED.utils = function(){
    Accordion
 ================================================== */
 
-BRUSHED.accordion = function(){
-	var accordion_trigger = $('.accordion-heading.accordionize');
+// BRUSHED.accordion = function(){
+// 	var accordion_trigger = $('.accordion-heading.accordionize');
 	
-	accordion_trigger.delegate('.accordion-toggle','click', function(event){
-		if($(this).hasClass('active')){
-			$(this).removeClass('active');
-		   	$(this).addClass('inactive');
-		}
-		else{
-		  	accordion_trigger.find('.active').addClass('inactive');          
-		  	accordion_trigger.find('.active').removeClass('active');   
-		  	$(this).removeClass('inactive');
-		  	$(this).addClass('active');
-	 	}
-		event.preventDefault();
-	});
-}
+// 	accordion_trigger.delegate('.accordion-toggle','click', function(event){
+// 		if($(this).hasClass('active')){
+// 			$(this).removeClass('active');
+// 		   	$(this).addClass('inactive');
+// 		}
+// 		else{
+// 		  	accordion_trigger.find('.active').addClass('inactive');          
+// 		  	accordion_trigger.find('.active').removeClass('active');   
+// 		  	$(this).removeClass('inactive');
+// 		  	$(this).addClass('active');
+// 	 	}
+// 		event.preventDefault();
+// 	});
+// }
 
 /* ==================================================
    Toggle
 ================================================== */
 
-BRUSHED.toggle = function(){
-	var accordion_trigger_toggle = $('.accordion-heading.togglize');
+// BRUSHED.toggle = function(){
+// 	var accordion_trigger_toggle = $('.accordion-heading.togglize');
 	
-	accordion_trigger_toggle.delegate('.accordion-toggle','click', function(event){
-		if($(this).hasClass('active')){
-			$(this).removeClass('active');
-		   	$(this).addClass('inactive');
-		}
-		else{
-		  	$(this).removeClass('inactive');
-		  	$(this).addClass('active');
-	 	}
-		event.preventDefault();
-	});
-}
+// 	accordion_trigger_toggle.delegate('.accordion-toggle','click', function(event){
+// 		if($(this).hasClass('active')){
+// 			$(this).removeClass('active');
+// 		   	$(this).addClass('inactive');
+// 		}
+// 		else{
+// 		  	$(this).removeClass('inactive');
+// 		  	$(this).addClass('active');
+// 	 	}
+// 		event.preventDefault();
+// 	});
+// }
 
 /* ==================================================
    Tooltip
@@ -429,7 +429,30 @@ $(document).ready(function(){
 			$('#circle').delay(250).animate({'opacity' : 1}, 500, 'linear');
 		}
 	});
+	$(document).on('click','a[data-toggle="collapse"]', function () {
+		
+		if($(this).parent().next().hasClass('in'))
+			$(this).parent().next().removeClass('in');
+		else{
+			$('.accordion-body.in').removeClass('in');
+			$(this).parent().next().addClass('in');
+		}
+		// if($(this).hasClass('collapsed'))
+		// 	$(this).removeClass('collapsed');
+		// else{
+		// 	$(this).addClass('collapsed');
+		// 	$(this).parent().next().addClass('in');
+		// 	}
+		});
+	$(document).on('click','a[data-tab]', function (e) {
+		$(this).parent().siblings('.active').removeClass('active');
+		$(this).parent().addClass('active');
+		$(this).parent().parent().next().find('.active').removeClass('active');
+		$(this).parent().parent().next().find('#' + $(this).attr('data-tab')).addClass('active in');
+		
+	});
 	
+		
 	BRUSHED.nav();
 	BRUSHED.mobileNav();
 	BRUSHED.listenerMenu();
@@ -445,10 +468,17 @@ $(document).ready(function(){
 	BRUSHED.accordion();
 	BRUSHED.toggle();
 	BRUSHED.toolTip();
+
 });
 
 $(window).resize(function(){
 	BRUSHED.mobileNav();
 });
 
+
 });
+
+/* ==================================================
+	Custom part
+================================================== */
+

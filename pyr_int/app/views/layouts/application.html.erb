@@ -7,7 +7,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="HandheldFriendly" content="true"/>
 	<meta name="MobileOptimized" content="320"/>   
-
+	  <%= stylesheet_link_tag    'application', media: 'all' %>
+	  <%= javascript_include_tag 'application' %>
+	  <%= csrf_meta_tags %>
   <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900' rel='stylesheet' type='text/css'>
 
   <!-- Fav Icon -->
@@ -17,12 +19,6 @@
 	<link rel="apple-touch-icon" sizes="114x114" href="#">
 	<link rel="apple-touch-icon" sizes="72x72" href="#">
 	<link rel="apple-touch-icon" sizes="144x144" href="#">
-
-  
-  <%= stylesheet_link_tag    'application', media: 'all' %>
-  <%= javascript_include_tag 'application' %>
-  <%= csrf_meta_tags %>
-
 </head>
 <body>
 <!-- Header -->
@@ -40,22 +36,12 @@
                 <li><a href="/templates">Шаблоны</a></li>
                 <li><a href="/mainn2">Задания</a></li>
                 <li><a ng-href="/connections">Соединения</a></li>
-				<li><a ng-href="shortcodes.html" class="external">Учетная запись</a></li>
+				        <li><a ng-href="shortcodes.html" class="external">Учетная запись</a></li>
             </ul>
         </nav>
     </div>
 </header>	
 <!-- End Header -->
-
-	
-		<ng-view></ng-view>
-	
-
-	<!-- Back To Top -->
-	<a id="back-to-top" href="#">
-		<i class="font-icon-arrow-simple-up"></i>
-	</a>
-	<!-- End Back to Top -->
-
+	<ng-view></ng-view>
 </body>
 </html>

@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
-  resources :ssh_connections
+  resources :task_templates #, :defaults => {format: :json}
 
-  resources :passports
+  resources :ssh_connections #, :defaults => {format: :json}
+
+  resources :passports #, :defaults => {format: :json}
+
   root to: 'application#index'
   get '*path' => 'application#index'
   # # #get 'passport/index'

@@ -1,8 +1,11 @@
-angular.module('pyramidApp', ["ngRoute"])
-		.controller('TemplatesCtrl', TemplatesCtrl)
-		.controller('ConnectionstCtrl', ConnectionsCtrl)
-		.controller('ssConnectionstCtrl', function($scope){})
-		.config(['$routeProvider', '$locationProvider',function ($routeProvider, $locationProvider) {
+'use strict';
+var pyramidApp = angular.module('pyramidApp', ['ngAnimate',
+    'ngCookies',
+    'ngResource',
+    'ngRoute',
+    'ngSanitize',
+    'ngTouch']);
+pyramidApp.config(['$routeProvider', '$locationProvider',function ($routeProvider, $locationProvider) {
 		  $locationProvider.html5Mode(true);
 		  $routeProvider
 		    .when('/templates',
@@ -10,9 +13,15 @@ angular.module('pyramidApp', ["ngRoute"])
 		        controller: "TemplatesCtrl" })
 		    .when('/connections',
 		      { templateUrl: "<%= asset_path('connections.html') %>",
-		        controller: "ConnectionstCtrl" })
+		        controller: "ConnectionsCtrl" })
 		    .when('/ssh_connections',
 		      { templateUrl: "app/views/ssh_connections/index.html",
 		        controller: "ssConnectionstCtrl" })
 		    .otherwise({ redirectTo: '/' });
-		}]);
+	}]);
+pyramidApp.factory('Connections', ['$resource', function($resource) {
+  return $resource('/ssh_connections/:id.json', null, {
+    'update': { method:'PUT' }
+  });
+}]);
+pyramidApp.controller('ssConnectionstCtrl', function($scope){});
