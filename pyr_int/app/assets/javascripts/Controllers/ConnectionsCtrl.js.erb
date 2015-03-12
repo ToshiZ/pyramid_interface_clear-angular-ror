@@ -1,12 +1,11 @@
 'use strict';
 angular.module('pyramidApp')
-	.controller('ConnectionsCtrl', ['$scope','Connections', '$http', function($scope, Connections, $http){
+	.controller('ConnectionsCtrl', ['$scope','GetInf', 'Connections', 'SshCon','$http', function($scope, GetInf, Connections, SshCon, $http){
 	$scope.sshParams = Connections.query();
 	$scope.addConnection = function(){
 		var con = new Connections($scope.newSshParams);
-		//$scope.sshParams.push(con);
 		con.$save(function(){
-
+			$scope.sshParams.push(con);
 		},function(response){
 			 $scope.errors = response.data.errors;
 		});
@@ -21,25 +20,32 @@ angular.module('pyramidApp')
         });
 	};
 	$scope.testConnection = function(sshParam){
+		//GetInf.get({name: sshParam.name, password: 'user'});
+	SshCon.get({name: sshParam.name, password: sshParam.pass}, function(resp){
+				sshParam.ready = resp.success;});// return $http.get('/ssh_actions/testConnection/' + sshParam.name)
+		// 	.success(function(custs){
+		// 		sshParam.ready = cust;
+		// }).error(function(){});
+			};
 		//if(sshConnection.$valid){
-			var req = {
-					method: 'GET',
-					url: '/ssh_connections#testConnection',
-					headers: {
-					   'Content-Type': "application/json"
-					 	}//,
-					//data: { name: sshParams.sshName, sshIp: sshParams.sshIp, sshLogin: sshParams.sshLogin, sshPass: sshParams.sshPass}
-				};
-		//}
-		$http(req)
-			.success(function(data){
-				sshParam.ready = data.success;
-				console.log(data);
-			})	
-			.error(function(data){
-				console.log(data);
-			});
-	};
+		// 	var req = {
+		// 			method: 'GET',
+		// 			url: '/ssh_connections#testConnection',
+		// 			headers: {
+		// 			   'Content-Type': "application/json"
+		// 			 	},
+		// 			data: { name: sshParam.name, ip: sshParam.ip, login: sshParam.login, password: sshParam.pass}
+		// 		};
+		// //}
+		// $http(req)
+		// 	.success(function(data){
+		// 		sshParam.ready = data.success;
+		// 		console.log(data);
+		// 	})	
+		// 	.error(function(data){
+		// 		console.log(data);
+		// 	});
+	
 	// $scope.addConnection = function(){		
 	// 	if(sshConnection.$valid){
 	// 		$scope.sshParams.push(newSshParams);

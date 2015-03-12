@@ -1,0 +1,118 @@
+<div ng-init="getInf()" class="alert alert-info fade in span6">
+	<p>Имя сервера: {{taskInfo.serv_name}}</p>
+	<p>Процессоры: {{taskInfo.proc_info}}</p>
+	<p>Заблокированные задания: {{taskInfo.block_tasks}}</p>
+	<p>Задания в очереди: {{taskInfo.queue_tasks}}</p>
+	<p>Задания на выполнении: {{taskInfo.run_tasks}}</p>
+	<p>Задания пользователя: {{taskInfo.user_info}}</p>
+</div>
+<div class="row"></div>
+<div ng-show="runTasks.length" class="span14" >
+<h3>Задания на выполнении</h3>
+      <div ng-repeat="runTask in runTasks"  class="accordion-group">
+        <div class="accordion-heading accordionize">
+            <a  class="accordion-toggle" data-toggle="collapse" data-parent="#accordionArea">{{runTask.name}}</a>
+        </div>  
+        <div class="accordion-body collapse">
+            <div class="accordion-inner">
+                  <!-- Start Tabs -->    
+        <h3 class="spec">Управление заданием</h3>
+        
+        <div class="tabbable">
+        
+            <ul class="nav nav-tabs" id="myTab{{runTask.tskParams.id}}">
+                <li class="active"><a  data-tab="{{runTask.tskParams.id}}tab1" >Процесс вычисления</a></li>
+                <li><a  data-tab="{{runTask.tskParams.id}}tab2" >Результаты</a></li>
+            </ul>
+         
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="{{runTask.tskParams.id}}tab1">
+           			<p>Имя задания: {{runTask.name}}</p>
+					<p>Состояние: {{runTask.runInfo}}</p>
+					<button class="button button-small" ng-click="removeRunTask(runTask, 'queue')" >Удалить из очереди</button>
+					<button class="button button-small" ng-click="removeRunTask(runTask, 'kill')"  >Остановить выполнение</button>
+                </div>
+
+                 <div class="tab-pane fade" id="{{runTask.tskParams.id}}tab2">
+                    {{runTask.managerLog}}
+                </div>
+            </div>
+                    
+        </div>
+    <!-- End Tabs -->
+            </div>
+        </div>
+    </div>
+</div>  
+<div ng-show="queuedTasks.length" class="span14" >
+<h3>Задания в очереди</h3>
+      <div ng-repeat="queuedTask in queuedTasks"  class="accordion-group">
+        <div class="accordion-heading accordionize">
+            <a  class="accordion-toggle" data-toggle="collapse" data-parent="#accordionArea">{{queuedTask.name}}</a>
+        </div>  
+        <div class="accordion-body collapse">
+            <div class="accordion-inner">
+                  <!-- Start Tabs -->    
+        <h3 class="spec">Управление заданием</h3>
+        
+        <div class="tabbable">
+        
+            <ul class="nav nav-tabs" id="myTab{{queuedTask.tskParams.id}}">
+                <li class="active"><a  data-tab="{{queuedTask.tskParams.id}}tab1" >Процесс вычисления</a></li>
+                <li><a  data-tab="{{queuedTask.tskParams.id}}tab2" >Результаты</a></li>
+            </ul>
+         
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="{{queuedTask.tskParams.id}}tab1">
+           			<p>Имя задания: {{queuedTask.name}}</p>
+					<p>Состояние: {{queuedTask.runInfo}}</p>
+					<button class="button button-small" ng-click="removeRunTask(queuedTask, 'queue')"  >Удалить из очереди</button>
+					<button class="button button-small" ng-click="removeRunTask(queuedTask, 'kill')" >Остановить выполнение</button>
+                </div>
+
+                 <div class="tab-pane fade" id="{{queuedTask.tskParams.id}}tab2">
+                    
+                </div>
+            </div>
+                    
+        </div>
+    <!-- End Tabs -->
+            </div>
+        </div>
+    </div>
+</div>  
+<div ng-show="blockTasks.length" class="span14" >
+<h3>Заблокированные задания</h3>
+      <div ng-repeat="blockTask in blockTasks"  class="accordion-group">
+        <div class="accordion-heading accordionize">
+            <a  class="accordion-toggle" data-toggle="collapse" data-parent="#accordionArea">{{blockTask.name}}</a>
+        </div>  
+        <div class="accordion-body collapse">
+            <div class="accordion-inner">
+                  <!-- Start Tabs -->    
+        <h3 class="spec">Управление заданием</h3>
+        
+        <div class="tabbable">
+        
+            <ul class="nav nav-tabs" id="myTab{{blockTask.tskParams.id}}">
+                <li class="active"><a  data-tab="{{blockTask.tskParams.id}}tab1" >Процесс вычисления</a></li>
+                <li><a  data-tab="{{blockTask.tskParams.id}}tab2" >Результаты</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="{{blockTask.tskParams.id}}tab1">
+           			<p>Имя задания: {{blockTask.name}}</p>
+					<p>Состояние: {{blockTask.runInfo}}</p>
+					<button class="button button-small" ng-click="removeRunTask(blockTask, 'queue')">Удалить из очереди</button>
+					<button class="button button-small" ng-click="removeRunTask(blockTask, 'kill')">Остановить выполнение</button>
+                </div>
+                 <div class="tab-pane fade" id="{{blockTask.tskParams.id}}tab2">
+                    
+                </div>
+            </div>
+                    
+        </div>
+    <!-- End Tabs -->
+            </div>
+        </div>
+    </div>
+</div>  

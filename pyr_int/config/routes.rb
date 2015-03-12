@@ -1,11 +1,31 @@
 Rails.application.routes.draw do
-  resources :task_templates #, :defaults => {format: :json}
+  resources :user_tasks
+
+  resources :templates
+
+  # get 'ssh_actions/testConnection'
+
+  # get 'ssh_actions/runCommand'
+
+  # get 'ssh_actions/getInfo'
+
+  resources :templates #, :defaults => {format: :json}
 
   resources :ssh_connections #, :defaults => {format: :json}
 
   resources :passports #, :defaults => {format: :json}
+ # resources :ssh_actions
+  #get 'ssh_actions/' => 'ssh_actions#testConnection'
+ # get 'ssh_actions/:id' => 'ssh_actions#testConnection'
+  get 'ssh_actions/:name/:password' => 'ssh_actions#testConnection'
+  get 'getinf/:name/:password/:command' => 'ssh_actions#runCommand'
+  get 'getOutputs/:name/:password/:task_name' => 'ssh_actions#get_outputs'
+  post 'run_command/:params' => 'ssh_actions#runCommand'
+  post 'dell_task/:params' => 'ssh_actions#dell_task'
+  get 'getinf/:name/:password' => 'ssh_actions#getInfo'
 
   root to: 'application#index'
+
   get '*path' => 'application#index'
   # # #get 'passport/index'
   #match '/testConnection', to: 'SshConnections#testConnection', via: 'get'

@@ -61,6 +61,7 @@ class SshConnectionsController < ApplicationController
     end
   end
   def testConnection
+    puts "asdasd"
     require 'rubygems'
       require 'net/ssh'
       passp = SshConnection.find(params[:name])
@@ -70,11 +71,16 @@ class SshConnectionsController < ApplicationController
         Net::SSH.start(serv, login, :password => params[:sshPass]) do |ssh|
             qwes = ssh.exec!(strConvert("mfree")).split("\n")[0]
       if(qwes.size != 0)
-        render json: { success: true }
+       #  format.html { render :edit }
+       # format.json { render (:json => { success: true },
+       #    :status => :ok)}
       end
     end
     rescue
-      render json: { success: false }
+      #render json: { success: false }
+      # format.html { render :edit }
+      # format.json { render (:json => { success: false },
+      #     :status => :unprocessable_entity)}
     end
   end
     def get_info

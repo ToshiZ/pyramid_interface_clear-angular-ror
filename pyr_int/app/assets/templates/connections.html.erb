@@ -1,10 +1,16 @@
 <div class="span10" ng-repeat="sshParam in sshParams" >
-    <div class="alert fade in"><a ng-click="testConnection(sshParam)">{{sshParam}}
-        <span ng-show="sshParam.name == 'Head'" class="font-icon-ok-circle"></span>
-        </a>
+    <div class="alert fade in">
+        {{'Название:' + sshParam.name + "| Адрес: " + sshParam.ip}}
+        <form ng-submit="testConnection(sshParam)">
+        <input ng-model="sshParam.pass" type="password" placeholder="Пароль"/>
+        <button class="button button-small" type="submit">{{'Тест'||sshParam.ready === true}}</button>
+        </form>
+        <span ng-show="sshParam.ready" class="font-icon-ok-circle"></span>       
+        <span ng-show="sshParam.ready === false" class="font-icon-remove-circle"></span>
         <a ng-click="removeConnection(sshParam)" class="close" data-dismiss="alert">×</a>
     </div>
 </div>
+
 <div class="row">
 	<div class="span12">
         <h3>Новое соединение</h3>

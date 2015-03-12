@@ -1,0 +1,74 @@
+'use strict';
+angular.module('pyramidApp')
+	.controller('TasksCtrl',['$scope', '$interval', 'GetInf', 'GetOutputs', 'Templates', '$http', '$location', function($scope, $interval, GetInf, GetOutputs, Templates, $http, $location){
+		var refreshTimer;
+		$scope.getInf = function(){
+			$scope.allTasks = JSON.parse(localStorage.getItem('runnTasks'));
+
+			refreshTimer = $interval(function(){GetInf.get({name: 'Head', password: 'user'}, function(resp){
+				$scope.queuedTasks = [];
+				$scope.runTasks = [];
+				$scope.blockTasks = [];
+				$scope.taskInfo = resp;
+				var wantedNames = [];
+				for(var tsk in $scope.taskInfo['queue_tasks']){
+					wantedNames.push($scope.taskInfo['queue_tasks'][tsk].split(' : ')[0].trim());
+				}
+				for(var tsk in $scope.allTasks){
+					if(wantedNames.indexOf($scope.allTasks[tsk].name) !== -1)
+						$scope.queuedTasks.push($scope.allTasks[tsk]);
+				}
+				wantedNames = [];
+				for(var tsk in $scope.taskInfo['run_tasks']){
+					wantedNames.push($scope.taskInfo['run_tasks'][tsk].split(' : ')[0].trim());
+					//$scope.getOutputs($scope.taskInfo['run_tasks'][tsk].split(' : ')[0].trim());
+				}
+				for(var tsk in $scope.allTasks){
+					if(wantedNames.indexOf($scope.allTasks[tsk].name) !== -1){
+						$scope.runTasks.push($scope.allTasks[tsk]);
+						$scope.getOutputs($scope.runTasks[$scope.runTasks.indexOf($scope.allTasks[tsk])])
+					}
+				}
+				wantedNames = [];
+				for(var tsk in $scope.taskInfo['block_tasks']){
+					wantedNames.push($scope.taskInfo['block_tasks'][tsk].split(' : ')[0].trim());
+				}
+				for(var tsk in $scope.allTasks){
+					if(wantedNames.indexOf($scope.allTasks[tsk].name) !== -1)
+						$scope.blockTasks.push($scope.allTasks[tsk]);
+				}		
+				console.log('df');
+			});}, 2000);
+		};
+		$scope.getOutputs = function(task){
+			GetOutputs.get({name: 'Head', password: 'user', task_name: task.name.replace(/\./g, "_")}, function(resp){
+				//$scope.taskInfo = resp;		
+				//console.log(resp);
+				task['managerLog'] = resp.info;
+			});
+		};
+
+		//$scope.runningTasks = JSON.parse(localStorage.getItem('runnTasks'));	
+		$scope.removeRunTask = function(runningTask, typeDell){
+			var res = $http.post('/dell_task/:params', {name: runningTask.connection.name, password: runningTask.connection.pass, type_dell: typeDell, 'task_name': runningTask.name});
+			res.success(function(data, status, headers, config) {
+				$scope.allTasks.splice($scope.allTasks.indexOf(findPurpose(runningTask.name, $scope.allTasks)),1);
+				localStorage.setItem('runnTasks', JSON.stringify($scope.allTasks));
+			});
+		};
+		$scope.$on("$destroy", function(){
+        	$scope.stopInterval();
+    	});
+    	 $scope.stopInterval = function() {
+          if (angular.isDefined(refreshTimer)) {
+            $interval.cancel(refreshTimer);
+            refreshTimer = undefined;
+          }
+        };
+         function findPurpose(purposeName, purposeObjects){
+   		 	return $.grep(purposeObjects, function(item){
+       			return item.purpose == purposeName;
+    		});
+		};
+}]);
+

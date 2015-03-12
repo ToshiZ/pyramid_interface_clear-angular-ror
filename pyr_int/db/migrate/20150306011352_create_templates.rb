@@ -1,11 +1,16 @@
-class CreateTaskTemplates < ActiveRecord::Migration
+class CreateTemplates < ActiveRecord::Migration
   def change
-    create_table :task_templates do |t|
+    create_table :templates do |t|
+      t.string :taskName
+      t.string :taskDescription
+      t.string :passportName
       t.string :name
+      t.integer :procNum
+      t.integer :maxTime
       t.boolean :historyenabled
       t.string :description
-      t.string :stopcode
-      t.string :resultcode
+      t.integer :stopcode
+      t.integer :resultcode
       t.string :dir
       t.boolean :nfs
       t.integer :checkpoint
@@ -21,6 +26,7 @@ class CreateTaskTemplates < ActiveRecord::Migration
       t.string :parametersDescription
       t.string :profiles
       t.string :profilesDescription
+      t.string :otherParams
 
       t.timestamps null: false
     end

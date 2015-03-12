@@ -14,14 +14,28 @@ pyramidApp.config(['$routeProvider', '$locationProvider',function ($routeProvide
 		    .when('/connections',
 		      { templateUrl: "<%= asset_path('connections.html') %>",
 		        controller: "ConnectionsCtrl" })
-		    .when('/ssh_connections',
-		      { templateUrl: "app/views/ssh_connections/index.html",
-		        controller: "ssConnectionstCtrl" })
+		    .when('/tasks',
+		      { templateUrl: "<%= asset_path('tasks.html') %>",
+		        controller: "TasksCtrl" })
 		    .otherwise({ redirectTo: '/' });
 	}]);
 pyramidApp.factory('Connections', ['$resource', function($resource) {
   return $resource('/ssh_connections/:id.json', null, {
-    'update': { method:'PUT' }
   });
 }]);
-pyramidApp.controller('ssConnectionstCtrl', function($scope){});
+pyramidApp.factory('Templates', ['$resource', function($resource) {
+  return $resource('/templates/:id.json', null, {
+  });
+}]);
+pyramidApp.factory('SshCon', ['$resource', function($resource) {
+  return $resource('/ssh_actions/:name/:password');
+}]);
+pyramidApp.factory('GetInf', ['$resource', function($resource) {
+  return $resource('/getinf/:name/:password/:command');
+}]);
+pyramidApp.factory('GetOutputs', ['$resource', function($resource) {
+  return $resource('/getOutputs/:name/:password/:task_name');
+}]);
+// pyramidApp.factory('RunCommand', ['$resource', function($resource) {
+//   return $resource('/run_command/:name/:type_dell');
+// }]);
