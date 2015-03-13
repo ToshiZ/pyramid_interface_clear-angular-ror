@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
+  resources :tasks
+
   resources :user_tasks
+
+  resources :ssh_connections
+
+  resources :task_templates
+
+  resources :user_tasks_infos
 
   resources :templates
 

@@ -23,6 +23,10 @@ pyramidApp.factory('Connections', ['$resource', function($resource) {
   return $resource('/ssh_connections/:id.json', null, {
   });
 }]);
+pyramidApp.factory('Tasks', ['$resource', function($resource) {
+  return $resource('/tasks/:id.json', null, {
+  });
+}]);
 pyramidApp.factory('Templates', ['$resource', function($resource) {
   return $resource('/templates/:id.json', null, {
   });

@@ -69,6 +69,6 @@ class TemplatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def template_params
-      params.require(:template).permit(:taskName, :taskDescription, :passportName, :name, :procNum, :maxTime, :historyenabled, :description, :stopcode, :resultcode, :dir, :nfs, :checkpoint, :logPath, :logNfs, :logEpk, :logCluster, :logNode, :portionCluster, :portionNode, :portionProgram, :parameters, :parametersDescription, :profiles, :profilesDescription, :otherParams)
+      params.require(:template).permit(:taskName, :taskDescription, :passportName, :name, :procNum, :maxTime, :historyenabled, :description, :stopcode, :resultcode, :dir, :nfs, :checkpoint, :logPath, :logNfs, :logEpk, :logCluster, :logNode, :portionCluster, :portionNode, :portionProgram, :parameters, :parametersDescription, :profiles, :profilesDescription, :otherParams, :userId)
     end
 end

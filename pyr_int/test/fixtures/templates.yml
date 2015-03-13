@@ -27,6 +27,7 @@ one:
   profiles: MyString
   profilesDescription: MyString
   otherParams: MyString
+  userId: 1
 
 two:
   taskName: MyString
@@ -55,3 +56,4 @@ two:
   profiles: MyString
   profilesDescription: MyString
   otherParams: MyString
+  userId: 1

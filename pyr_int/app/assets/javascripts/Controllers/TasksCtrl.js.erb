@@ -1,42 +1,60 @@
 'use strict';
 angular.module('pyramidApp')
-	.controller('TasksCtrl',['$scope', '$interval', 'GetInf', 'GetOutputs', 'Templates', '$http', '$location', function($scope, $interval, GetInf, GetOutputs, Templates, $http, $location){
+	.controller('TasksCtrl',['$scope', 'Tasks', '$interval', 'GetInf', 'GetOutputs', 'Templates', '$http', '$location', function($scope, Tasks, $interval, GetInf, GetOutputs, Templates, $http, $location){
 		var refreshTimer;
+		//$scope.allTasks = [];
 		$scope.getInf = function(){
-			$scope.allTasks = JSON.parse(localStorage.getItem('runnTasks'));
-
+			//$scope.allTasks = JSON.parse(localStorage.getItem('runnTasks'));
+			$scope.allTasks = [];
 			refreshTimer = $interval(function(){GetInf.get({name: 'Head', password: 'user'}, function(resp){
+				// $scope.allTasks = Tasks.query();
+				Tasks.query(function(resp){
+					for(var itm in resp)
+						if($scope.allTasks.indexOf(resp[itm]) === -1)
+							$scope.allTasks.push(resp[itm]);
+				});
 				$scope.queuedTasks = [];
 				$scope.runTasks = [];
 				$scope.blockTasks = [];
+				$scope.finishedTasks = [];
 				$scope.taskInfo = resp;
 				var wantedNames = [];
 				for(var tsk in $scope.taskInfo['queue_tasks']){
 					wantedNames.push($scope.taskInfo['queue_tasks'][tsk].split(' : ')[0].trim());
 				}
 				for(var tsk in $scope.allTasks){
-					if(wantedNames.indexOf($scope.allTasks[tsk].name) !== -1)
-						$scope.queuedTasks.push($scope.allTasks[tsk]);
-				}
-				wantedNames = [];
-				for(var tsk in $scope.taskInfo['run_tasks']){
-					wantedNames.push($scope.taskInfo['run_tasks'][tsk].split(' : ')[0].trim());
-					//$scope.getOutputs($scope.taskInfo['run_tasks'][tsk].split(' : ')[0].trim());
-				}
-				for(var tsk in $scope.allTasks){
-					if(wantedNames.indexOf($scope.allTasks[tsk].name) !== -1){
+					if($scope.allTasks[tsk].status_suppz == 'run')
 						$scope.runTasks.push($scope.allTasks[tsk]);
-						$scope.getOutputs($scope.runTasks[$scope.runTasks.indexOf($scope.allTasks[tsk])])
-					}
-				}
-				wantedNames = [];
-				for(var tsk in $scope.taskInfo['block_tasks']){
-					wantedNames.push($scope.taskInfo['block_tasks'][tsk].split(' : ')[0].trim());
-				}
-				for(var tsk in $scope.allTasks){
-					if(wantedNames.indexOf($scope.allTasks[tsk].name) !== -1)
+					if($scope.allTasks[tsk].status_suppz == 'queue')
+						$scope.queuedTasks.push($scope.allTasks[tsk]);
+					if($scope.allTasks[tsk].status_suppz == 'block')
 						$scope.blockTasks.push($scope.allTasks[tsk]);
-				}		
+					if($scope.allTasks[tsk].status_suppz == 'finished')
+						$scope.finishedTasks.push($scope.allTasks[tsk]);
+				}
+				// for(var tsk in $scope.allTasks){
+				// 	if(wantedNames.indexOf($scope.allTasks[tsk].name) !== -1)
+				// 		$scope.queuedTasks.push($scope.allTasks[tsk]);
+				// }
+				// wantedNames = [];
+				// for(var tsk in $scope.taskInfo['run_tasks']){
+				// 	wantedNames.push($scope.taskInfo['run_tasks'][tsk].split(' : ')[0].trim());
+				// 	//$scope.getOutputs($scope.taskInfo['run_tasks'][tsk].split(' : ')[0].trim());
+				// }
+				// for(var tsk in $scope.allTasks){
+				// 	if(wantedNames.indexOf($scope.allTasks[tsk].name) !== -1){
+				// 		$scope.runTasks.push($scope.allTasks[tsk]);
+				// 		$scope.getOutputs($scope.runTasks[$scope.runTasks.indexOf($scope.allTasks[tsk])])
+				// 	}
+				// }
+				// wantedNames = [];
+				// for(var tsk in $scope.taskInfo['block_tasks']){
+				// 	wantedNames.push($scope.taskInfo['block_tasks'][tsk].split(' : ')[0].trim());
+				// }
+				// for(var tsk in $scope.allTasks){
+				// 	if(wantedNames.indexOf($scope.allTasks[tsk].name) !== -1)
+				// 		$scope.blockTasks.push($scope.allTasks[tsk]);
+				// }		
 				console.log('df');
 			});}, 2000);
 		};

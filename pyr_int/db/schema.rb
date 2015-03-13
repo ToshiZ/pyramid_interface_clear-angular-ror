@@ -11,14 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150311232955) do
-
-  create_table "passports", force: :cascade do |t|
-    t.string   "fileName"
-    t.string   "taskName"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+ActiveRecord::Schema.define(version: 20150313002254) do
 
   create_table "ssh_connections", force: :cascade do |t|
     t.string   "name"
@@ -49,12 +42,26 @@ ActiveRecord::Schema.define(version: 20150311232955) do
     t.string   "parametersDescription"
     t.string   "profiles"
     t.string   "profilesDescription"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
     t.string   "passportName"
     t.integer  "procNum"
     t.integer  "maxTime"
     t.string   "taskName"
+    t.integer  "userId"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string   "name"
+    t.text     "mqinfo"
+    t.text     "stdout_rez"
+    t.text     "work_status"
+    t.text     "errors_suppz"
+    t.text     "manager_log"
+    t.text     "output_suppz"
+    t.string   "status_suppz"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "templates", force: :cascade do |t|
@@ -84,19 +91,22 @@ ActiveRecord::Schema.define(version: 20150311232955) do
     t.string   "profiles"
     t.string   "profilesDescription"
     t.string   "otherParams"
+    t.integer  "userId"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
   end
 
   create_table "user_tasks", force: :cascade do |t|
-    t.string   "task_name"
-    t.string   "string"
+    t.string   "name"
+    t.text     "mqinfo"
+    t.text     "stdout_rez"
+    t.text     "work_status"
+    t.text     "errors"
+    t.text     "manager_log"
+    t.text     "output"
     t.string   "status"
-    t.string   "result"
-    t.string   "text"
-    t.string   "info"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
 end

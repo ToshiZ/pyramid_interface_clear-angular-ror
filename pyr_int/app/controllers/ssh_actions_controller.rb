@@ -127,11 +127,40 @@ class SshActionsController < ApplicationController
       find_free_proc = false
       find_queue = false     
 
-      for i in 0..res.size
+      for i in 0..res.size       
         if res[i].present?
           if (res[i].include?(serv.login) && res[i].include?("~~~"))
-            block_tasks[i] = res[i]
-            puts res[i].split(' : ')[0].strip + ' BLOCK!!'
+            block_tasks[i] = res[i]    
+            task_name = res[i].split(' : ')[0].strip
+            task = Task.find_or_create_by(name: task_name)       
+            begin
+              task.stdout_rez = ssh.exec!(strConvert("cat test/stdout.rez")).split("\n")
+            rescue
+              task.stdout_rez = ''
+            end           
+            begin
+              task.work_status = ssh.exec!(strConvert("cat test/work.status")).split("\n")
+            rescue
+              task.work_status = ''
+            end           
+            task.mqinfo = res[i]
+            begin 
+               task.errors_suppz = ssh.exec!(strConvert("cat test/" + task_name + "/errors")).split("\n")
+            rescue
+               task.errors_suppz = ''
+            end
+            begin
+              task.manager_log = ssh.exec!(strConvert("cat test/" + task_name + "/manager.log")).split("\n")
+            rescue
+              task.manager_log = ''
+            end
+            begin
+              task.output_suppz = ssh.exec!(strConvert("cat test/" + task_name + "/output")).split("\n")
+            rescue
+              task.output_suppz = ''
+            end
+            task.status_suppz = "block"
+            task.save
           end
           if (res[i].include?("Free: "))
             proc_info = res[i]
@@ -142,15 +171,72 @@ class SshActionsController < ApplicationController
           if(res[i].split.count == 10 && res[i].include?(serv.login) && !res[i].include?("~~~"))
             if(res[i].include?("~") )
               queue_tasks[i] = res[i]
-              puts res[i].split(' : ')[0].strip + ' QUEUE!!'
+              task_name = res[i].split(' : ')[0].strip
+              task = Task.find_or_create_by(name: task_name)       
+              begin
+                task.stdout_rez = ssh.exec!(strConvert("cat test/stdout.rez")).split("\n")
+              rescue
+                task.stdout_rez = ''
+              end           
+              begin
+                task.work_status = ssh.exec!(strConvert("cat test/work.status")).split("\n")
+              rescue
+                task.work_status = ''
+              end           
+              task.mqinfo = res[i]
+              begin 
+                 task.errors_suppz = ssh.exec!(strConvert("cat test/" + task_name + "/errors")).split("\n")
+              rescue
+                 task.errors_suppz = ''
+              end
+              begin
+                task.manager_log = ssh.exec!(strConvert("cat test/" + task_name + "/manager.log")).split("\n")
+              rescue
+                task.manager_log = ''
+              end
+              begin
+                task.output_suppz = ssh.exec!(strConvert("cat test/" + task_name + "/output")).split("\n")
+              rescue
+                task.output_suppz = ''
+              end
+              task.status_suppz = "queue"
+              task.save
             else
               run_tasks[i] = res[i]
-              puts res[i].split(' : ')[0].strip + ' RUN!!'
+              task_name = res[i].split(' : ')[0].strip
+              task = Task.find_or_create_by(name: task_name)       
+              begin
+                task.stdout_rez = ssh.exec!(strConvert("cat test/stdout.rez")).split("\n")
+              rescue
+                task.stdout_rez = ''
+              end           
+              begin
+                task.work_status = ssh.exec!(strConvert("cat test/work.status")).split("\n")
+              rescue
+                task.work_status = ''
+              end           
+              task.mqinfo = res[i]
+              begin 
+                 task.errors_suppz = ssh.exec!(strConvert("cat test/" + task_name + "/errors")).split("\n")
+              rescue
+                 task.errors_suppz = ''
+              end
+              begin
+                task.manager_log = ssh.exec!(strConvert("cat test/" + task_name + "/manager.log")).split("\n")
+              rescue
+                task.manager_log = ''
+              end
+              begin
+                task.output_suppz = ssh.exec!(strConvert("cat test/" + task_name + "/output")).split("\n")
+              rescue
+                task.output_suppz = ''
+              end
+              task.status_suppz = "run"
+              task.save
             end
           end
         end
-      end
-      
+      end      
       if (queue_tasks.empty?)
         queue_tasks = 0;
       end

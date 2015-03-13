@@ -18,7 +18,7 @@ class UserTasksControllerTest < ActionController::TestCase
 
   test "should create user_task" do
     assert_difference('UserTask.count') do
-      post :create, user_task: { info: @user_task.info, result: @user_task.result, status: @user_task.status, string: @user_task.string, string: @user_task.string, task_name: @user_task.task_name, text: @user_task.text, text: @user_task.text }
+      post :create, user_task: { errors: @user_task.errors, manager_log: @user_task.manager_log, mqinfo: @user_task.mqinfo, output: @user_task.output, status: @user_task.status, stdout_rez: @user_task.stdout_rez, task_name: @user_task.task_name, work_status: @user_task.work_status }
     end
 
     assert_redirected_to user_task_path(assigns(:user_task))
@@ -35,7 +35,7 @@ class UserTasksControllerTest < ActionController::TestCase
   end
 
   test "should update user_task" do
-    patch :update, id: @user_task, user_task: { info: @user_task.info, result: @user_task.result, status: @user_task.status, string: @user_task.string, string: @user_task.string, task_name: @user_task.task_name, text: @user_task.text, text: @user_task.text }
+    patch :update, id: @user_task, user_task: { errors: @user_task.errors, manager_log: @user_task.manager_log, mqinfo: @user_task.mqinfo, output: @user_task.output, status: @user_task.status, stdout_rez: @user_task.stdout_rez, task_name: @user_task.task_name, work_status: @user_task.work_status }
     assert_redirected_to user_task_path(assigns(:user_task))
   end
 

@@ -2,20 +2,20 @@
 
 one:
   task_name: MyString
-  string: MyString
+  mqinfo: MyText
+  stdout_rez: MyText
+  work_status: MyText
+  errors: MyText
+  manager_log: MyText
+  output: MyText
   status: MyString
-  string: MyString
-  result: MyString
-  text: MyString
-  info: MyString
-  text: MyString
 
 two:
   task_name: MyString
-  string: MyString
+  mqinfo: MyText
+  stdout_rez: MyText
+  work_status: MyText
+  errors: MyText
+  manager_log: MyText
+  output: MyText
   status: MyString
-  string: MyString
-  result: MyString
-  text: MyString
-  info: MyString
-  text: MyString

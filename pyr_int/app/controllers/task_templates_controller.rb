@@ -69,6 +69,6 @@ class TaskTemplatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def task_template_params
-      params.require(:task_template).permit(:name, :historyenabled, :description, :stopcode, :resultcode, :dir, :nfs, :checkpoint, :logPath, :logNfs, :logEpk, :logCluster, :logNode, :portionCluster, :portionNode, :portionProgram, :parameters, :parametersDescription, :profiles, :profilesDescription)
+      params.require(:task_template).permit(:name, :historyenabled, :description, :stopcode, :resultcode, :dir, :nfs, :checkpoint, :logPath, :logNfs, :logEpk, :logCluster, :logNode, :portionCluster, :portionNode, :portionProgram, :parameters, :parametersDescription, :profiles, :profilesDescription, :passportName, :procNum, :maxTime, :taskName, :userId)
     end
 end

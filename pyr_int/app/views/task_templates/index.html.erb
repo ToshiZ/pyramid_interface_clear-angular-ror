@@ -25,6 +25,11 @@
       <th>Parametersdescription</th>
       <th>Profiles</th>
       <th>Profilesdescription</th>
+      <th>Passportname</th>
+      <th>Procnum</th>
+      <th>Maxtime</th>
+      <th>Taskname</th>
+      <th>Userid</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -52,6 +57,11 @@
         <td><%= task_template.parametersDescription %></td>
         <td><%= task_template.profiles %></td>
         <td><%= task_template.profilesDescription %></td>
+        <td><%= task_template.passportName %></td>
+        <td><%= task_template.procNum %></td>
+        <td><%= task_template.maxTime %></td>
+        <td><%= task_template.taskName %></td>
+        <td><%= task_template.userId %></td>
         <td><%= link_to 'Show', task_template %></td>
         <td><%= link_to 'Edit', edit_task_template_path(task_template) %></td>
         <td><%= link_to 'Destroy', task_template, method: :delete, data: { confirm: 'Are you sure?' } %></td>
