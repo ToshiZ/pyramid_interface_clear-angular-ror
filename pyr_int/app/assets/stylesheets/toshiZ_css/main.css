@@ -1411,3 +1411,14 @@ footer .credits {
 		max-height: 1000px;
 		height: auto;
 	}
+.accordion-inner.text{
+	overflow: auto;
+	height: 300px;
+}
+.accordion-group.inline{
+	display: inline-block;
+	margin-right: 0px;
+}
+.button.inline{
+	margin-left: 0px;
+}

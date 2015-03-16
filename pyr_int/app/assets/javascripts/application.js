@@ -23,6 +23,7 @@
 //= require Controllers/TemplatesCtrl
 //= require Controllers/ConnectionsCtrl
 //= require Controllers/TasksCtrl
+//= require Controllers/TaskDetailsCtrl
 
 
 

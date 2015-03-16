@@ -17,6 +17,9 @@ pyramidApp.config(['$routeProvider', '$locationProvider',function ($routeProvide
 		    .when('/tasks',
 		      { templateUrl: "<%= asset_path('tasks.html') %>",
 		        controller: "TasksCtrl" })
+		    .when('/tasks/:taskId',
+		      { templateUrl: "<%= asset_path('tasksDetails.html') %>",
+		        controller: "TaskDetailsCtrl" })
 		    .otherwise({ redirectTo: '/' });
 	}]);
 pyramidApp.factory('Connections', ['$resource', function($resource) {

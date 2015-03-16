@@ -31,9 +31,9 @@ angular.module('pyramidApp')
 		var res = $http.post('/run_command/:params', {name: connection.name, password: connection.pass, command: template});
 		res.success(function(data, status, headers, config) {
 			$scope.runInfo = data;
-			var tsks = JSON.parse(localStorage.getItem('runnTasks')) || [];
-			tsks.push({"name":  $scope.runInfo.info[2].split('"')[1], "tskParams": template, "runInfo" :data, "connection": connection});
-			localStorage.setItem('runnTasks', JSON.stringify(tsks));
+			//var tsks = JSON.parse(localStorage.getItem('runnTasks')) || [];
+			// tsks.push({"name":  $scope.runInfo.info[2].split('"')[1], "tskParams": template, "runInfo" :data, "connection": connection});
+			// localStorage.setItem('runnTasks', JSON.stringify(tsks));
 			connection.pass = '';
 		});
 		// GetInf.save({name: connection.name, password: connection.pass, command: template}, function(resp){

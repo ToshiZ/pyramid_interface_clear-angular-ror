@@ -1,7 +1,7 @@
 class SshActionsController < ApplicationController
   def testConnection
-    puts params[:name]
-    puts params[:password]
+    # puts params[:name]
+    # puts params[:password]
     require 'rubygems'
     require 'net/ssh'
     require 'net/ssh/shell'
@@ -32,31 +32,32 @@ class SshActionsController < ApplicationController
    # puts params[:command]["procNum"]
     str = "epkrun -np " + params[:command]["procNum"].to_s + " -maxtime " + params[:command]["maxTime"].to_s + " -passp " + params[:command]["passportName"].to_s + " -tsk " + params[:command]["taskName"].to_s
     #puts str
-    @res = ''
     begin
     Net::SSH.start(serv.ip, serv.login, :password => params[:password]) do |ssh|
       ssh.shell do |sh|
-        asd = sh.execute 'cd test'
-        asd = sh.execute 'pwd'
-        puts asd
-        @res = sh.execute str  
-        @res = render json: {  success: true, info: @res} 
-       # puts 3
-        
-        sh.wait!
-        sh.execute! 'exit'
-        puts @res 
+        begin
+          asd = sh.execute 'cd ' + params[:command]["dir"].to_s
+          asd = sh.execute 'pwd'
+          puts asd
+          @res = sh.execute str  
+          sh.wait!
+          puts 1111
+          sh.execute! 'exit'
+          puts 2222
+        rescue
+          puts 3333
+          render json: {  success: true, info: @res}
+        end 
       end  
-        puts 123123
-        puts @res  
-
+        puts 4444444
        render json: {  success: true, info: @res}  
     end
-    rescue
-      puts 123123
-        puts @res  
-    render json: { success: false, serv_name: serv.name }
-    end
+   rescue
+     puts 55555555
+     render json: {  success: true, info: 'Ok'} 
+    #     puts @res  
+    # render json: { success: false, serv_name: serv.name }
+   end
      
   end
   def dell_task
@@ -86,19 +87,19 @@ class SshActionsController < ApplicationController
     end
   end
   def get_outputs
-    puts params
+    #puts params
 
     serv = SshConnection.find_by name: params[:name]
-    puts serv
+    #puts serv
     str = 'cat ' + params[:task_name].gsub('_', '.') + '/manager.log'
-    puts str
+    #puts str
 
     begin
       # Net::SSH.start('172.16.36.128', 'user', :password => 'user') do |ssh|
        Net::SSH.start(serv.ip, serv.login, :password => params[:password]) do |ssh|
-        puts 123
+        #puts 123
         res = ssh.exec!(strConvert(str)).split("\n")
-        puts(res)
+       # puts(res)
         render json: { success: true, info: res}
        end
      rescue
@@ -107,17 +108,15 @@ class SshActionsController < ApplicationController
      end
   end
   def getInfo
-    puts 123
-      puts params[:name]
-      puts params[:password]
+    # puts 123
+    #   puts params[:name]
+    #   puts params[:password]
     serv = SshConnection.find_by name: params[:name]
-    puts serv.login
+    # puts serv.login
     begin
     Net::SSH.start(serv.ip, serv.login, :password => params[:password]) do |ssh|
-      puts params[:name]
-      puts params[:password]
-      res = ssh.exec!(strConvert("mqinfo")).split("\n")
-      puts res
+      ress = ssh.exec!(strConvert("mqinfo"))
+      res = ress.split("\n")
       run_tasks = {}
       queue_tasks = {}
       block_tasks = {}
@@ -126,6 +125,12 @@ class SshActionsController < ApplicationController
 
       find_free_proc = false
       find_queue = false     
+        Task.all.each do |tsk| 
+          if !(ress.include? tsk.name) && tsk.status_suppz != "finished"
+            tsk.status_suppz = "finished"
+            tsk.save
+          end
+        end
 
       for i in 0..res.size       
         if res[i].present?
@@ -156,8 +161,10 @@ class SshActionsController < ApplicationController
             end
             begin
               task.output_suppz = ssh.exec!(strConvert("cat test/" + task_name + "/output")).split("\n")
+              task.output_status_suppz = task.output_suppz[-1]
             rescue
               task.output_suppz = ''
+              task.output_status_suppz = ''
             end
             task.status_suppz = "block"
             task.save
@@ -196,8 +203,10 @@ class SshActionsController < ApplicationController
               end
               begin
                 task.output_suppz = ssh.exec!(strConvert("cat test/" + task_name + "/output")).split("\n")
+                task.output_status_suppz = task.output_suppz[-1]
               rescue
                 task.output_suppz = ''
+                task.output_status_suppz = ''
               end
               task.status_suppz = "queue"
               task.save
@@ -228,8 +237,10 @@ class SshActionsController < ApplicationController
               end
               begin
                 task.output_suppz = ssh.exec!(strConvert("cat test/" + task_name + "/output")).split("\n")
+                task.output_status_suppz = task.output_suppz[-1]
               rescue
                 task.output_suppz = ''
+                task.output_status_suppz = ''
               end
               task.status_suppz = "run"
               task.save

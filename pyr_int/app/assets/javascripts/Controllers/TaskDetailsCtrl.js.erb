@@ -1,0 +1,34 @@
+'use strict';
+angular.module('pyramidApp')
+	.controller('TaskDetailsCtrl',['$scope', '$routeParams', 'Tasks', '$interval', 'GetInf', 'GetOutputs', 'Templates', '$http', '$location', function($scope, $routeParams, Tasks, $interval, GetInf, GetOutputs, Templates, $http, $location){
+		var refreshTimer;
+		$scope.taskId = $routeParams.taskId;
+		$scope.getInf = function(){
+			refreshTimer = $interval(function(){
+				GetInf.get({name: 'Head', password: 'user'});
+				Tasks.get({id: $scope.taskId}, function(resp){
+					$scope.task = resp;
+				},function(){
+					$location.path('/tasks');
+				});
+			}, 2000);
+		}
+		$scope.$on("$destroy", function(){
+    		$scope.stopInterval();
+		});
+	 	$scope.stopInterval = function() {
+      		if (angular.isDefined(refreshTimer)) {
+        		$interval.cancel(refreshTimer);
+        		refreshTimer = undefined;
+      		}
+    	};
+    	$scope.removeTask = function(){
+		  Tasks.remove({id: $scope.taskId}, function() {
+        	});		
+		};
+		$scope.stopTask = function(typeDell){
+			var res = $http.post('/dell_task/:params', {name: 'Head', password: 'user', type_dell: typeDell, 'task_name': $scope.task.name});
+			res.success(function(data, status, headers, config) {
+			});
+		};
+	}]);

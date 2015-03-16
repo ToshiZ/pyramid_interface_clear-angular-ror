@@ -4,12 +4,22 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
+    # Task.all.each do |tsk| 
+    #   if (tsk.output_suppz.include? "Epk: STOP with return code 0") && tsk.status_suppz != "finished"
+    #     tsk.status_suppz = "finished"
+    #     tsk.save
+    #   end
+    # end
     @tasks = Task.all
   end
 
   # GET /tasks/1
   # GET /tasks/1.json
   def show
+    if (@task.output_suppz.include? "Epk: STOP with return code 0") && @task.status_suppz != "finished"
+      @task.status_suppz = "finished"
+      @task.save
+    end
   end
 
   # GET /tasks/new

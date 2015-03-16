@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150313002254) do
+ActiveRecord::Schema.define(version: 20150316050018) do
 
   create_table "ssh_connections", force: :cascade do |t|
     t.string   "name"
@@ -60,8 +60,9 @@ ActiveRecord::Schema.define(version: 20150313002254) do
     t.text     "manager_log"
     t.text     "output_suppz"
     t.string   "status_suppz"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.string   "output_status_suppz"
   end
 
   create_table "templates", force: :cascade do |t|

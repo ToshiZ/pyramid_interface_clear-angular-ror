@@ -2,26 +2,21 @@
 angular.module('pyramidApp')
 	.controller('TasksCtrl',['$scope', 'Tasks', '$interval', 'GetInf', 'GetOutputs', 'Templates', '$http', '$location', function($scope, Tasks, $interval, GetInf, GetOutputs, Templates, $http, $location){
 		var refreshTimer;
-		//$scope.allTasks = [];
 		$scope.getInf = function(){
-			//$scope.allTasks = JSON.parse(localStorage.getItem('runnTasks'));
 			$scope.allTasks = [];
 			refreshTimer = $interval(function(){GetInf.get({name: 'Head', password: 'user'}, function(resp){
-				// $scope.allTasks = Tasks.query();
 				Tasks.query(function(resp){
-					for(var itm in resp)
-						if($scope.allTasks.indexOf(resp[itm]) === -1)
-							$scope.allTasks.push(resp[itm]);
+					$scope.allTasks = resp
 				});
 				$scope.queuedTasks = [];
 				$scope.runTasks = [];
 				$scope.blockTasks = [];
 				$scope.finishedTasks = [];
 				$scope.taskInfo = resp;
-				var wantedNames = [];
-				for(var tsk in $scope.taskInfo['queue_tasks']){
-					wantedNames.push($scope.taskInfo['queue_tasks'][tsk].split(' : ')[0].trim());
-				}
+				// var wantedNames = [];
+				// for(var tsk in $scope.taskInfo['queue_tasks']){
+				// 	wantedNames.push($scope.taskInfo['queue_tasks'][tsk].split(' : ')[0].trim());
+				// }
 				for(var tsk in $scope.allTasks){
 					if($scope.allTasks[tsk].status_suppz == 'run')
 						$scope.runTasks.push($scope.allTasks[tsk]);
@@ -32,47 +27,25 @@ angular.module('pyramidApp')
 					if($scope.allTasks[tsk].status_suppz == 'finished')
 						$scope.finishedTasks.push($scope.allTasks[tsk]);
 				}
-				// for(var tsk in $scope.allTasks){
-				// 	if(wantedNames.indexOf($scope.allTasks[tsk].name) !== -1)
-				// 		$scope.queuedTasks.push($scope.allTasks[tsk]);
-				// }
-				// wantedNames = [];
-				// for(var tsk in $scope.taskInfo['run_tasks']){
-				// 	wantedNames.push($scope.taskInfo['run_tasks'][tsk].split(' : ')[0].trim());
-				// 	//$scope.getOutputs($scope.taskInfo['run_tasks'][tsk].split(' : ')[0].trim());
-				// }
-				// for(var tsk in $scope.allTasks){
-				// 	if(wantedNames.indexOf($scope.allTasks[tsk].name) !== -1){
-				// 		$scope.runTasks.push($scope.allTasks[tsk]);
-				// 		$scope.getOutputs($scope.runTasks[$scope.runTasks.indexOf($scope.allTasks[tsk])])
-				// 	}
-				// }
-				// wantedNames = [];
-				// for(var tsk in $scope.taskInfo['block_tasks']){
-				// 	wantedNames.push($scope.taskInfo['block_tasks'][tsk].split(' : ')[0].trim());
-				// }
-				// for(var tsk in $scope.allTasks){
-				// 	if(wantedNames.indexOf($scope.allTasks[tsk].name) !== -1)
-				// 		$scope.blockTasks.push($scope.allTasks[tsk]);
-				// }		
 				console.log('df');
 			});}, 2000);
 		};
-		$scope.getOutputs = function(task){
-			GetOutputs.get({name: 'Head', password: 'user', task_name: task.name.replace(/\./g, "_")}, function(resp){
-				//$scope.taskInfo = resp;		
-				//console.log(resp);
-				task['managerLog'] = resp.info;
+		// $scope.getOutputs = function(task){
+		// 	GetOutputs.get({name: 'Head', password: 'user', task_name: task.name.replace(/\./g, "_")}, function(resp){
+		// 		//$scope.taskInfo = resp;		
+		// 		//console.log(resp);
+		// 		task['managerLog'] = resp.info;
+		// 	});
+		// };
+		$scope.stopTask = function(tsk){
+			var typeDell = tsk.status_suppz == 'run'? 'kill': 'queue';
+			var res = $http.post('/dell_task/:params', {name: 'Head', password: 'user', type_dell: typeDell, 'task_name': tsk.name});
+			res.success(function(data, status, headers, config) {
 			});
 		};
-
-		//$scope.runningTasks = JSON.parse(localStorage.getItem('runnTasks'));	
-		$scope.removeRunTask = function(runningTask, typeDell){
-			var res = $http.post('/dell_task/:params', {name: runningTask.connection.name, password: runningTask.connection.pass, type_dell: typeDell, 'task_name': runningTask.name});
-			res.success(function(data, status, headers, config) {
-				$scope.allTasks.splice($scope.allTasks.indexOf(findPurpose(runningTask.name, $scope.allTasks)),1);
-				localStorage.setItem('runnTasks', JSON.stringify($scope.allTasks));
-			});
+		$scope.removeTask = function(tsk){
+		  Tasks.remove({id: tsk.id}, function() {
+        	});		
 		};
 		$scope.$on("$destroy", function(){
         	$scope.stopInterval();
