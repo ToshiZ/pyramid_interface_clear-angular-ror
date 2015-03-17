@@ -137,30 +137,31 @@ class SshActionsController < ApplicationController
           if (res[i].include?(serv.login) && res[i].include?("~~~"))
             block_tasks[i] = res[i]    
             task_name = res[i].split(' : ')[0].strip
-            task = Task.find_or_create_by(name: task_name)       
+            task = Task.find_or_create_by(name: task_name)  
+            templ = Template.where('taskName LIKE ?', "%#{task_name.split('.')[0] +'.'+ task_name.split('.')[1]}%")[0].dir    
             begin
-              task.stdout_rez = ssh.exec!(strConvert("cat test/stdout.rez")).split("\n")
+              task.stdout_rez = ssh.exec!(strConvert("cat " + templ + "/stdout.rez")).split("\n")
             rescue
               task.stdout_rez = ''
             end           
             begin
-              task.work_status = ssh.exec!(strConvert("cat test/work.status")).split("\n")
+              task.work_status = ssh.exec!(strConvert("cat " + templ + "/work.status")).split("\n")
             rescue
               task.work_status = ''
             end           
             task.mqinfo = res[i]
             begin 
-               task.errors_suppz = ssh.exec!(strConvert("cat test/" + task_name + "/errors")).split("\n")
+               task.errors_suppz = ssh.exec!(strConvert("cat " + templ+ "/" + task_name + "/errors")).split("\n")
             rescue
                task.errors_suppz = ''
             end
             begin
-              task.manager_log = ssh.exec!(strConvert("cat test/" + task_name + "/manager.log")).split("\n")
+              task.manager_log = ssh.exec!(strConvert("cat " + templ+ "/" + task_name + "/manager.log")).split("\n")
             rescue
               task.manager_log = ''
             end
             begin
-              task.output_suppz = ssh.exec!(strConvert("cat test/" + task_name + "/output")).split("\n")
+              task.output_suppz = ssh.exec!(strConvert("cat " + templ+ "/" + task_name + "/output")).split("\n")
               task.output_status_suppz = task.output_suppz[-1]
             rescue
               task.output_suppz = ''
@@ -179,69 +180,71 @@ class SshActionsController < ApplicationController
             if(res[i].include?("~") )
               queue_tasks[i] = res[i]
               task_name = res[i].split(' : ')[0].strip
-              task = Task.find_or_create_by(name: task_name)       
+              task = Task.find_or_create_by(name: task_name) 
+              templ = Template.where('taskName LIKE ?', "%#{task_name.split('.')[0] +'.'+ task_name.split('.')[1]}%")[0].dir      
               begin
-                task.stdout_rez = ssh.exec!(strConvert("cat test/stdout.rez")).split("\n")
-              rescue
-                task.stdout_rez = ''
-              end           
-              begin
-                task.work_status = ssh.exec!(strConvert("cat test/work.status")).split("\n")
-              rescue
-                task.work_status = ''
-              end           
-              task.mqinfo = res[i]
-              begin 
-                 task.errors_suppz = ssh.exec!(strConvert("cat test/" + task_name + "/errors")).split("\n")
-              rescue
-                 task.errors_suppz = ''
-              end
-              begin
-                task.manager_log = ssh.exec!(strConvert("cat test/" + task_name + "/manager.log")).split("\n")
-              rescue
-                task.manager_log = ''
-              end
-              begin
-                task.output_suppz = ssh.exec!(strConvert("cat test/" + task_name + "/output")).split("\n")
-                task.output_status_suppz = task.output_suppz[-1]
-              rescue
-                task.output_suppz = ''
-                task.output_status_suppz = ''
-              end
+              task.stdout_rez = ssh.exec!(strConvert("cat " + templ + "/stdout.rez")).split("\n")
+            rescue
+              task.stdout_rez = ''
+            end           
+            begin
+              task.work_status = ssh.exec!(strConvert("cat " + templ + "/work.status")).split("\n")
+            rescue
+              task.work_status = ''
+            end           
+            task.mqinfo = res[i]
+            begin 
+               task.errors_suppz = ssh.exec!(strConvert("cat " + templ+ "/" + task_name + "/errors")).split("\n")
+            rescue
+               task.errors_suppz = ''
+            end
+            begin
+              task.manager_log = ssh.exec!(strConvert("cat " + templ+ "/" + task_name + "/manager.log")).split("\n")
+            rescue
+              task.manager_log = ''
+            end
+            begin
+              task.output_suppz = ssh.exec!(strConvert("cat " + templ+ "/" + task_name + "/output")).split("\n")
+              task.output_status_suppz = task.output_suppz[-1]
+            rescue
+              task.output_suppz = ''
+              task.output_status_suppz = ''
+            end
               task.status_suppz = "queue"
               task.save
             else
               run_tasks[i] = res[i]
               task_name = res[i].split(' : ')[0].strip
-              task = Task.find_or_create_by(name: task_name)       
-              begin
-                task.stdout_rez = ssh.exec!(strConvert("cat test/stdout.rez")).split("\n")
-              rescue
-                task.stdout_rez = ''
-              end           
-              begin
-                task.work_status = ssh.exec!(strConvert("cat test/work.status")).split("\n")
-              rescue
-                task.work_status = ''
-              end           
-              task.mqinfo = res[i]
-              begin 
-                 task.errors_suppz = ssh.exec!(strConvert("cat test/" + task_name + "/errors")).split("\n")
-              rescue
-                 task.errors_suppz = ''
-              end
-              begin
-                task.manager_log = ssh.exec!(strConvert("cat test/" + task_name + "/manager.log")).split("\n")
-              rescue
-                task.manager_log = ''
-              end
-              begin
-                task.output_suppz = ssh.exec!(strConvert("cat test/" + task_name + "/output")).split("\n")
-                task.output_status_suppz = task.output_suppz[-1]
-              rescue
-                task.output_suppz = ''
-                task.output_status_suppz = ''
-              end
+              task = Task.find_or_create_by(name: task_name)  
+              templ = Template.where('taskName LIKE ?', "%#{task_name.split('.')[0] +'.'+ task_name.split('.')[1]}%")[0].dir 
+             begin
+              task.stdout_rez = ssh.exec!(strConvert("cat " + templ + "/stdout.rez")).split("\n")
+            rescue
+              task.stdout_rez = ''
+            end           
+            begin
+              task.work_status = ssh.exec!(strConvert("cat " + templ + "/work.status")).split("\n")
+            rescue
+              task.work_status = ''
+            end           
+            task.mqinfo = res[i]
+            begin 
+               task.errors_suppz = ssh.exec!(strConvert("cat " + templ+ "/" + task_name + "/errors")).split("\n")
+            rescue
+               task.errors_suppz = ''
+            end
+            begin
+              task.manager_log = ssh.exec!(strConvert("cat " + templ+ "/" + task_name + "/manager.log")).split("\n")
+            rescue
+              task.manager_log = ''
+            end
+            begin
+              task.output_suppz = ssh.exec!(strConvert("cat " + templ+ "/" + task_name + "/output")).split("\n")
+              task.output_status_suppz = task.output_suppz[-1]
+            rescue
+              task.output_suppz = ''
+              task.output_status_suppz = ''
+            end
               task.status_suppz = "run"
               task.save
             end

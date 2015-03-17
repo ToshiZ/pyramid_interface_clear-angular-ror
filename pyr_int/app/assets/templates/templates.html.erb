@@ -33,7 +33,7 @@
                         <input ng-model="template.maxTime" type="text" placeholder = "5"></input></p>
                     </fieldset>
                     <button id="button{{template.id}}" class="button button-small" ng-click="toConnections('button' +{{template.id}})">Запустить задание</button>
-                    <div ng-show="runInfo">{{runInfo}}</div>
+                    <!-- <div ng-show="runInfo">{{runInfo}}</div> -->
                     <!-- <div ng-dropdown-multiselect="" options="{{temp}}" selected-model="{{templates}}" extra-settings="{{displayProp: 'taskName'}}"></div> -->
                 </form>
                 </div>
@@ -46,7 +46,7 @@
                             <input ng-model="connection.pass" type="password" placeholder="Пароль"/>
                             <button class="button button-small" type="submit">{{'Запуск задания'||sshParam.ready === true}}</button>
                             </form>
-                            <span ng-show="runInfo">{{runInfo.info}}</span>
+                            <!-- <span ng-show="runInfo">{{runInfo.info}}</span> -->
                         </div>
                     </div>
                     
@@ -71,7 +71,7 @@
                     </fieldset>
 
                     <button class="button button-small" ng-click="runTask()">Запустить задание</button>
-                    <div ng-show="runInfo">{{runInfo}}</div>
+                    <!-- <div ng-show="runInfo">{{runInfo}}</div> -->
                       </form>
                 </div>
                 <div class="tab-pane fade" id="{{template.id}}tab4">
@@ -89,7 +89,7 @@
                         <input ng-model="template.checkpoint" type="text" placeholder = "10"></p>
                     </fieldset>
                     <button class="button button-small" ng-click="runTask()">Запустить задание</button>
-                    <div ng-show="runInfo">{{runInfo}}</div>
+                    <!-- <div ng-show="runInfo">{{runInfo}}</div> -->
                       </form>
                 </div>
             </div>
