@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'my_auth/index'
+
   resources :tasks
 
   resources :user_tasks
