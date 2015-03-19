@@ -4,31 +4,8 @@ angular.module('pyramidApp')
 		var refreshTimer;
 		$scope.getInf = function(){
 			$scope.allTasks = [];
-			refreshTimer = $interval(function(){GetInf.get({name: 'Head', password: 'user'}, function(resp){
-				Tasks.query(function(resp){
-					$scope.allTasks = resp
-				});
-				$scope.queuedTasks = [];
-				$scope.runTasks = [];
-				$scope.blockTasks = [];
-				$scope.finishedTasks = [];
-				$scope.taskInfo = resp;
-				// var wantedNames = [];
-				// for(var tsk in $scope.taskInfo['queue_tasks']){
-				// 	wantedNames.push($scope.taskInfo['queue_tasks'][tsk].split(' : ')[0].trim());
-				// }
-				for(var tsk in $scope.allTasks){
-					if($scope.allTasks[tsk].status_suppz == 'run')
-						$scope.runTasks.push($scope.allTasks[tsk]);
-					if($scope.allTasks[tsk].status_suppz == 'queue')
-						$scope.queuedTasks.push($scope.allTasks[tsk]);
-					if($scope.allTasks[tsk].status_suppz == 'block')
-						$scope.blockTasks.push($scope.allTasks[tsk]);
-					if($scope.allTasks[tsk].status_suppz == 'finished')
-						$scope.finishedTasks.push($scope.allTasks[tsk]);
-				}
-				console.log('df');
-			});}, 2000);
+			combiner();
+			refreshTimer = $interval(combiner, 2000);
 		};
 		// $scope.getOutputs = function(task){
 		// 	GetOutputs.get({name: 'Head', password: 'user', task_name: task.name.replace(/\./g, "_")}, function(resp){
@@ -61,5 +38,27 @@ angular.module('pyramidApp')
        			return item.purpose == purposeName;
     		});
 		};
+		function combiner(){
+			GetInf.get({name: 'Head', password: 'user'}, function(resp){
+				Tasks.query(function(resp){
+					$scope.allTasks = resp
+				});
+				$scope.queuedTasks = [];
+				$scope.runTasks = [];
+				$scope.blockTasks = [];
+				$scope.finishedTasks = [];
+				$scope.taskInfo = resp;
+				for(var tsk in $scope.allTasks){
+					if($scope.allTasks[tsk].status_suppz == 'run')
+						$scope.runTasks.push($scope.allTasks[tsk]);
+					if($scope.allTasks[tsk].status_suppz == 'queue')
+						$scope.queuedTasks.push($scope.allTasks[tsk]);
+					if($scope.allTasks[tsk].status_suppz == 'block')
+						$scope.blockTasks.push($scope.allTasks[tsk]);
+					if($scope.allTasks[tsk].status_suppz == 'finished')
+						$scope.finishedTasks.push($scope.allTasks[tsk]);
+				}
+			});
+		}
 }]);
 

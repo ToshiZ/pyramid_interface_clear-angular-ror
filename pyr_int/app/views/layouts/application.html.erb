@@ -21,27 +21,7 @@
 	<link rel="apple-touch-icon" sizes="144x144" href="#">
 </head>
 <body>
-<!-- Header -->
-<header>
-    <div class="sticky-nav">
-    	<a id="mobile-nav" class="menu-nav" href="#menu-nav"></a>
-        
-        <div id="logo">
-        	<a id="goUp" href="#home-slider" title="Brushed | Responsive One Page Template">Brushed Template</a>
-        </div>
-        
-        <nav id="menu">
-        	<ul id="menu-nav">
-            	<li class="current"><a href="#home-slider">ПК "Пирамида"</a></li>
-                <li><a href="/templates">Шаблоны</a></li>
-                <li><a href="/tasks">Задания</a></li>
-                <li><a ng-href="/connections">Соединения</a></li>
-				        <li><a ng-href="shortcodes.html" class="external">Учетная запись</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>	
-<!-- End Header -->
-	<ng-view></ng-view>
-</body>
+
+	<%= yield %>
+  </body>
 </html>
