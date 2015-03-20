@@ -1,51 +1,54 @@
 Rails.application.routes.draw do
+  get 'admin_app/index'
+
   devise_for :admins
   devise_for :users
-  get 'my_auth/index'
+  resources :users, :path => '/admin_app/users'
+ # get 'my_auth/index'
 
-  resources :tasks
+  resources :tasks,  :path => '/user_app/tasks'
 
-  resources :user_tasks
+  resources :user_tasks,  :path => '/user_app/user_tasks'
 
-  resources :ssh_connections
+  resources :ssh_connections,  :path => '/user_app/ssh_connections'
 
-  resources :task_templates
+  resources :task_templates,  :path => '/user_app/task_templates'
 
-  resources :user_tasks_infos
+  resources :templates,  :path => '/user_app/templates'
 
-  resources :templates
+  resources :tasks,  :path => '/admin_app/tasks'
 
-  # get 'ssh_actions/testConnection'
+  resources :user_tasks,  :path => '/admin_app/user_tasks'
 
-  # get 'ssh_actions/runCommand'
+  resources :ssh_connections,  :path => '/admin_app/ssh_connections'
 
-  # get 'ssh_actions/getInfo'
+  resources :task_templates,  :path => '/admin_app/task_templates'
 
-  resources :templates #, :defaults => {format: :json}
+  resources :templates,  :path => '/admin_app/templates'
 
-  resources :ssh_connections #, :defaults => {format: :json}
+  get 'user_app/ssh_actions/:name/:password' => 'ssh_actions#testConnection'
+  get 'user_app/getinf/:name/:password/:command' => 'ssh_actions#runCommand'
+  get 'user_app/getOutputs/:name/:password/:task_name' => 'ssh_actions#get_outputs'
+  post 'user_app/run_command/:params' => 'ssh_actions#runCommand'
+  post 'user_app/dell_task/:params' => 'ssh_actions#dell_task'
+  get 'user_app/getinf/:name/:password' => 'ssh_actions#getInfo'
 
-  resources :passports #, :defaults => {format: :json}
- # resources :ssh_actions
-  #get 'ssh_actions/' => 'ssh_actions#testConnection'
- # get 'ssh_actions/:id' => 'ssh_actions#testConnection'
-  get 'ssh_actions/:name/:password' => 'ssh_actions#testConnection'
-  get 'getinf/:name/:password/:command' => 'ssh_actions#runCommand'
-  get 'getOutputs/:name/:password/:task_name' => 'ssh_actions#get_outputs'
-  post 'run_command/:params' => 'ssh_actions#runCommand'
-  post 'dell_task/:params' => 'ssh_actions#dell_task'
-  get 'getinf/:name/:password' => 'ssh_actions#getInfo'
+  get 'admin_app/ssh_actions/:name/:password' => 'ssh_actions#testConnection'
+  get 'admin_app/getinf/:name/:password/:command' => 'ssh_actions#runCommand'
+  get 'admin_app/getOutputs/:name/:password/:task_name' => 'ssh_actions#get_outputs'
+  post 'admin_app/run_command/:params' => 'ssh_actions#runCommand'
+  post 'admin_app/dell_task/:params' => 'ssh_actions#dell_task'
+  get 'admin_app/getinf/:name/:password' => 'ssh_actions#getInfo'
 
-  root to: 'application#index'
+  #root to: 'application#index'
+  root to: 'my_auth#index'
 
-  get '*path' => 'application#index'
+  get 'user_app' => 'application#index'
+  get 'user_app/*path' => 'application#index'
+  get 'admin_app' => 'admin_app#index'
+  get 'admin_app/*path' => 'admin_app#index'
   # # #get 'passport/index'
-  #match '/testConnection', to: 'SshConnections#testConnection', via: 'get'
- 
-  # match '/epk', to: 'passport#epk', via: 'post'
-  # match '/rr', to: 'passport#rr', via: 'get'
-  # match '/main', to: 'passport#main', via: 'get'
-  # match '/main2', to: 'passport#main2', via: 'get'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

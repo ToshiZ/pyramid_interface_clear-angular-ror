@@ -1,5 +1,6 @@
 
 //= require toshiZ_js/jquery
+//= require angular/devise
 //= require angular/angular
 //= require angular/angular-route
 //= require angular/angular-resource
@@ -19,11 +20,8 @@
 //= require toshiZ_js/plugins
 //= require toshiZ_js/main
 //= require toshiZ_js/underscore
-//= require Modules/passport
-//= require Controllers/TemplatesCtrl
-//= require Controllers/ConnectionsCtrl
-//= require Controllers/TasksCtrl
-//= require Controllers/TaskDetailsCtrl
+
+
 
 
 
